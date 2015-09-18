@@ -1,0 +1,56 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+ext {
+	springVersion = '4.0.0.RELEASE'
+	slf4jVersion = '1.7.10'
+	cxfVersion = '3.0.0'
+}
+
+dependencies {
+
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
+	compile "org.slf4j:slf4j-jdk14:${slf4jVersion}"
+
+	compile "org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}"
+//	compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
+	compile "org.apache.cxf:cxf-rt-transports-http:${cxfVersion}"
+	compile "org.apache.cxf:cxf-rt-transports-http-jetty:${cxfVersion}"
+
+	compile "org.springframework:spring-context:${springVersion}"
+	compile "org.springframework:spring-web:${springVersion}"
+
+}
+
+/*
+org.apache.cxf:cxf-rt-transports-http-jetty:3.0.0
+
+
+174	        <dependency>
+175	            <groupId>org.apache.cxf.xjc-utils</groupId>
+176	            <artifactId>cxf-xjc-runtime</artifactId>
+177	            <version>${cxf.xjc-utils.version}</version>
+178	        </dependency>
+
+>
+111	        <dependency>
+112	            <groupId>org.springframework</groupId>
+113	            <artifactId>spring-context</artifactId>
+114	        </dependency>
+115	        <dependency>
+116	            <groupId>org.springframework</groupId>
+117	            <artifactId>spring-web</artifactId>
+118	        </dependency>
+119	        <dependency>
+120	            <groupId>org.eclipse.jetty</groupId>
+121	            <artifactId>jetty-webapp</artifactId>
+122	        </dependency>
+
+*/
+//org.springframework:spring-web:3.0.6.RELEASE
+
+
+jettyRun {
+	scanIntervalSeconds 10
+	httpPort 9000
+}

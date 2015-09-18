@@ -1,0 +1,52 @@
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+*.bak
+Thumb.db
+
+#java specific
+*.class
+*.jar
+*.class
+*.war
+*.par
+.dbshell
+
+# ignore build folders
+build
+target
+bin
+classes
+dist
+
+#eclipse specific
+.classpath
+.project
+.sonar
+.settings
+.externalToolBuilders
+.ant-targets-build.xml
+.metadata
+.recommenders
+RemoteSystemsTempFiles
+
+#IntelliJ IDEA Specific
+*.iml
+.idea
+
+# ivy specific
+ivy-cache
+
+#gradle specific
+!gradle-wrapper.jar
+.gradle
+artifacts
+artifacts.xml
+gradle-local.properties
+localRepository
+
+#merge
+*.orig

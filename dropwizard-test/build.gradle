@@ -1,0 +1,17 @@
+
+dependencies {
+	compile 'io.dropwizard:dropwizard-core:0.8.1'
+	compile 'io.dropwizard:dropwizard-client:0.8.1' // used to call another HTTP API
+	compile 'io.dropwizard:dropwizard-metrics-ganglia:0.8.1'
+	compile 'io.dropwizard:dropwizard-configuration:0.8.1'
+}
+
+
+task oneJar(type: OneJar) {
+	mainClass = 'vic.test.dropwizard.helloworld.HelloWorldApplication'
+//	archiveName = 'dropwizard-test.jar'
+}
+
+artifacts {
+	archives oneJar
+}

@@ -1,0 +1,56 @@
+
+
+defaultTasks 'assemble'
+//apply plugin: 'java-base'
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
+apply from: "gradle/dependencies.gradle"
+
+apply plugin: 'gradle-one-jar'
+
+buildscript {
+	repositories {
+		jcenter()
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+		classpath 'commons-io:commons-io:2.4'
+	}
+}
+
+allprojects {
+	group = 'vic.test'
+
+	repositories {
+		jcenter()
+		mavenCentral()
+//		maven { url "https://repo.spring.io/libs-release" }
+//		maven { url 'https://repo.gradle.org/gradle/libs' }
+	}
+}
+
+subprojects {
+	version = '1.0-SNAPSHOT' 
+
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+
+	sourceCompatibility = 1.7
+	targetCompatibility = 1.7
+
+	dependencies {
+		compile libraries.guava
+//		compile libraries.slf4j_api
+//		runtime libraries.log4j_to_slf4j
+		testCompile libraries.junit
+		testCompile libraries.mockito
+		testRuntime libraries.hsqldb
+	}
+
+}
+

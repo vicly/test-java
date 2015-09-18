@@ -1,0 +1,27 @@
+
+dependencies {
+
+	/*
+	 * From hibernate 3.5, this covers all dependencies:
+	 *   Hibernate Core: the native Hibernate APIs and core engine
+	 *   Hibernate Annotations: the annotation-based mapping
+	 *   Hibernate EntityManager: the JPA 2.0 APIs and livecycle semantic implementation
+	compile 'org.hibernate:hibernate-entitymanager:5.0.1.Final'
+	compile 'org.hibernate:hibernate-validator:5.2.1.Final'
+	 */
+
+	compile dependencies.create('org.hibernate:hibernate-entitymanager:4.3.7.Final') {
+		//exclude group: 'org.jboss.logging'
+		//exclude group: 'org.jboss.spec.javax.transaction'
+		//exclude group: 'org.jboss'
+	}
+
+
+
+	compile 'com.google.guava:guava:18.0'
+	compile 'org.hsqldb:hsqldb:2.2.9'
+	runtime 'p6spy:p6spy:2.1.4'
+	compile 'org.slf4j:slf4j-api:1.7.5'
+	runtime 'org.slf4j:slf4j-log4j12:1.7.5'
+
+}

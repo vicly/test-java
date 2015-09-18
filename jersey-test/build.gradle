@@ -1,0 +1,30 @@
+
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+
+/*
+dependencies {
+    compile "javax.ws.rs:jsr311-api:1.1.1"
+
+	compile 'com.sun.jersey:jersey-server:1.16'
+	compile 'com.sun.jersey:jersey-core:1.16'
+	compile 'com.sun.jersey:jersey-client:1.16'
+	compile 'com.sun.jersey:jersey-servlet:1.16'
+	compile 'com.sun.jersey:jersey-json:1.16'
+
+	testCompile "junit:junit-dep:4.10"
+}
+*/
+
+dependencies {
+	compile 'org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.12'
+//	runtime 'com.sun.jersey:jersey-json:1.18.1'
+	compile "com.google.code.gson:gson:1.7.1"
+	//compile 'com.google.guava:guava:17.0'
+	
+	
+	testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-bundle:2.12'
+	testCompile 'junit:junit-dep:4.10'
+}
+

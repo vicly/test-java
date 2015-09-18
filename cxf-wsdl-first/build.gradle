@@ -1,0 +1,78 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+ext {
+	springVersion = '4.0.0.RELEASE'
+	slf4jVersion = '1.7.10'
+	cxfVersion = '3.0.0'
+}
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath "commons-io:commons-io:2.4"
+	}
+}
+
+
+dependencies {
+
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
+	compile "org.slf4j:slf4j-jdk14:${slf4jVersion}"
+
+	compile "org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}"
+//	compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
+	compile "org.apache.cxf:cxf-rt-transports-http:${cxfVersion}"
+	compile "org.apache.cxf:cxf-rt-transports-http-jetty:${cxfVersion}"
+
+	compile "org.springframework:spring-context:${springVersion}"
+	compile "org.springframework:spring-web:${springVersion}"
+
+}
+
+jettyRun {
+	scanIntervalSeconds 10
+	httpPort 9000
+}
+
+configurations {
+	wsdl2java
+}
+
+dependencies {
+	wsdl2java "org.apache.cxf:cxf-tools-wsdlto-core:${cxfVersion}"
+	wsdl2java "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}"
+	wsdl2java "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}"
+}
+
+
+def wsdl2java = task generateJavaFromWsdl(type: JavaExec) {
+	def wsdl = file('src/main/resources/wsdl/person.wsdl')
+	def genSrcDir = file("${buildDir}/generated-sources")
+
+	inputs.file wsdl
+	outputs.dir genSrcDir
+
+	classpath configurations.wsdl2java
+	main 'org.apache.cxf.tools.wsdlto.WSDLToJava'
+
+	args '-d', genSrcDir.toString(), wsdl.toString()
+
+	def byteArrayOutputStream = new org.apache.commons.io.output.byteArrayOutputStream()
+	errorOutput = new org.apache.commons.io.output.TeeOutputStream(System.err, byteArrayOutputStream)
+
+	doLast {
+		def str = byteArrayOutputStream.toString()
+		if (str.contains('Usage : wsdl2java') || str.contains('WSDLToJava Error')) {
+			throw new TaskExecutionException(
+				tasks[name], 
+				new IOException('WSDLToJava has failed. Please see output'))
+		}
+	}
+
+}
+
+compileJava.dependsOn += wsdl2java
+compileJava.source wsdl2java.outputs.files, sourceSets.main.java

@@ -1,0 +1,15 @@
+include 'azure-storage-test'
+include 'dropwizard-test'
+include 'infinispan-test'
+include 'jdk-test'
+include 'jersey-test'
+include 'jpa-hibernate-test'
+include 'jpa-test'
+include 'junit-test'
+include 'loggly-test'
+include 'misc-java-test'
+include 'spring-test'
+include 'ws-test'
+//include 'cxf-wsdl-first' // tmp ignored
+
+

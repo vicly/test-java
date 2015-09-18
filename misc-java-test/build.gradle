@@ -1,0 +1,8 @@
+
+dependencies {
+	compile 'com.jcraft:jsch:0.1.41'
+//	compile 'com.jcraft:jsch:0.1.42'
+//	compile 'com.jcraft:jsch:0.1.43 44'
+//	compile 'com.jcraft:jsch:0.1.45'
+//	compile 'com.jcraft:jsch:0.1.51'
+}
