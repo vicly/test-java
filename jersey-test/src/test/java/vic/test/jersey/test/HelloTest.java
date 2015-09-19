@@ -16,28 +16,31 @@ import vic.test.jersey.HelloResource;
 
 public class HelloTest extends JerseyTest {
 
-	@Override
-	protected ResourceConfig configure() {
-		enable(TestProperties.LOG_TRAFFIC);
-		return new ResourceConfig(
-				GsonProvider.class,
-				HelloResource.class);
-	}
-	
-	@Test
-	public void testConnection() {
-		Response response = target().path("hello").request(MediaType.APPLICATION_JSON_TYPE).get();
-		assertEquals(200, response.getStatus());
+    @Override
+    protected ResourceConfig configure() {
+        enable(TestProperties.LOG_TRAFFIC);
+        return new ResourceConfig(GsonProvider.class, HelloResource.class);
+    }
 
-		String resString;
-		
-		resString = target().path("hello").request(MediaType.APPLICATION_JSON_TYPE).get(String.class);
-		System.out.println(resString);
+    @Test
+    public void testConnection() {
+        System.out.println("/hello request...");
+        Response response = target("hello").request(MediaType.APPLICATION_JSON_TYPE).get();
+        System.out.println("/hello response: " + response);
+        assertEquals(200, response.getStatus());
 
-		resString = target().path("hello/task").request(MediaType.APPLICATION_JSON_TYPE).get(String.class);
-		System.out.println(resString);
-	}
-	
+        String resString;
+        System.out.println("/hello request...");
+        resString = target("hello")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get(String.class);
+        System.out.println("/hello response: " + resString);
+
+        System.out.println("/hello/task request...");
+        resString = target("hello/task")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get(String.class);
+        System.out.println("/hello/task response: " + resString);
+    }
+
 }
-
-

@@ -22,11 +22,11 @@ public class HelloResource {
 		return "{\"message\":\"hello json\"}";
 	}
 	
-	@Path("task")
 	@GET
+    @Path("task")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Task task() {
-		System.out.println("----> task()");
+		System.out.println("task() in");
 		Task task = new Task();
 		task.setId("T001");
 		task.setName("Detial design");
@@ -34,15 +34,15 @@ public class HelloResource {
 	}
 	
 	
-	@Path("nothingFound")
 	@GET
+    @Path("nothingFound")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response nothingFound() {
 		return Response.noContent().build();
 	}
 	
-	@Path("found")
 	@GET
+    @Path("found")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response found() {
 		Task task = new Task();

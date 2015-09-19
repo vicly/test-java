@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -20,11 +21,12 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 
 @Provider
-@Consumes({ MediaType.APPLICATION_JSON, "text/json" })
-@Produces({ MediaType.APPLICATION_JSON, "text/json" })
+@Consumes({ MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON })
 public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 
 	@Override
@@ -67,9 +69,14 @@ public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
 			MultivaluedMap<String, Object> httpHeaders,
 			OutputStream entityStream)
 			throws IOException, WebApplicationException {
-		Gson g = new Gson();
-		httpHeaders.get("Content-Type").add("charset=UTF-8");
-		entityStream.write(g.toJson(t).getBytes("UTF-8"));
+        Gson g = new Gson();
+        OutputStreamWriter writer = new OutputStreamWriter(entityStream, Charsets.UTF_8);
+        try {
+            g.toJson(t, writer);
+        } finally {
+            writer.close();
+        }
+//		entityStream.write(g.toJson(t).getBytes("UTF-8"));
 	}
  
 	@Override
