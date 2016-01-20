@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
+
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
-             
+
     <persistence-unit name="TestPU" transaction-type="RESOURCE_LOCAL">
-<!-- 
+<!--
 			<non-jta-data-source>java:comp/env/jdbc/tutorialDS</non-jta-data-source>
 			<provider>org.hibernate.ejb.HibernatePersistence</provider>
  -->
  		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- In Non-JEE environment, no auto scan, have to list all classes here -->
+        <class>vic.test.jpa.basic.composite_id.embedded.Car2</class>
+        <class>vic.test.jpa.basic.composite_id.idclass.Car</class>
+        <class>vic.test.jpa.basic.date_enum_converter.Toy</class>
+        <class>vic.test.jpa.basic.inheritance.Circle</class>
+        <class>vic.test.jpa.basic.inheritance.Shape</class>
+        <class>vic.test.jpa.basic.inheritance.Square</class>
+        <class>vic.test.jpa.basic.one_entity_multipletables.Person</class>
+        <class>vic.test.jpa.basic.pktable.Harddisk</class>
+        <class>vic.test.jpa.basic.pktable.VedioCard</class>
+        <class>vic.test.jpa.relation.many2many.Role</class>
+        <class>vic.test.jpa.relation.many2many.User</class>
+        <class>vic.test.jpa.relation.many2many.UserType</class>
+        <class>vic.test.jpa.relation.many2many_association.Employee</class>
+        <class>vic.test.jpa.relation.many2many_association.Project</class>
+        <class>vic.test.jpa.relation.many2many_association.ProjectAssociation</class>
+        <class>vic.test.jpa.relation.one2many.Group</class>
+        <class>vic.test.jpa.relation.one2many.GroupAttribute</class>
+        <class>vic.test.jpa.relation.one2many.Member</class>
+        <class>vic.test.jpa.relation.one2one.Account</class>
+        <class>vic.test.jpa.relation.one2one.AccountName</class>
+        <class>vic.test.jpa.relation.one2one.AccountProfile</class>
+        <class>vic.test.jpa.relation.one2one_embedded.Address</class>
+        <class>vic.test.jpa.relation.one2one_embedded.Contact</class>
+        <class>vic.test.jpa.sample.blog.Blog</class>
+        <class>vic.test.jpa.sample.blog.BlogUser</class>
+        <class>vic.test.jpa.sample.blog.Category</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.p6spy.engine.spy.P6SpyDriver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:p6spy:hsqldb:mem:testdb" />
-			<!-- 
+			<!--
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:testdb" />
              -->
@@ -26,7 +54,7 @@
             <property name="hibernate.connection.shutdown" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 
-            <!-- 
+            <!--
             <property name="hibernate.bytecode.use_reflection_optimizer" value="false"/>
             <property name="hibernate.format_sql" value="true" />
              -->

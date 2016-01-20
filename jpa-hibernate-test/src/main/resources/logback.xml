@@ -1,0 +1,19 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{ISO8601} %-5level [%thread] %logger{10}#%method:%line %X{requestId} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.hibernate" level="INFO" />
+<!--
+    <logger name="org.hibernate.type" level="DEBUG" />
+-->
+    <logger name="org.hibernate" level="INFO" />
+    <logger name="com.p6spy.engine.spy" level="INFO" />
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

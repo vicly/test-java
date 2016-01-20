@@ -36,6 +36,7 @@ RemoteSystemsTempFiles
 #IntelliJ IDEA Specific
 *.iml
 .idea
+atlassian-ide-plugin.xml
 
 # ivy specific
 ivy-cache
