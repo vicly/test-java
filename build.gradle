@@ -35,7 +35,7 @@ allprojects {
 }
 
 subprojects {
-	version = '1.0-SNAPSHOT' 
+	version = '1.0-SNAPSHOT'
 
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
@@ -48,6 +48,7 @@ subprojects {
 //		compile libraries.slf4j_api
 //		runtime libraries.log4j_to_slf4j
 		testCompile libraries.junit
+		testCompile libraries.hamcrest_all
 		testCompile libraries.mockito
 		testRuntime libraries.hsqldb
 	}

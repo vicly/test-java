@@ -16,3 +16,4 @@ libraries.junit = 'junit:junit:4.11'
 libraries.mockito = "org.mockito:mockito-core:1.9.5"
 libraries.hsqldb = 'org.hsqldb:hsqldb:2.3.2'
 libraries.logback = 'ch.qos.logback:logback-classic:1.0.9'
+libraries.hamcrest_all = 'org.hamcrest:hamcrest-all:1.3'

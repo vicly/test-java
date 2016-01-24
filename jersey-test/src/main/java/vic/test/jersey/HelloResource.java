@@ -9,47 +9,20 @@ import javax.ws.rs.core.Response;
 
 @Path("hello")
 public class HelloResource {
-	
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String sayHelloJson() {
+        return "{\"message\":\"hello json\"}";
+    }
+
+    /**
+     * Matched when "accept: text/plain"
+     */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String sayPlainTextHello() {
 		return "hello";
 	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public String sayHelloJson() {
-		return "{\"message\":\"hello json\"}";
-	}
-	
-	@GET
-    @Path("task")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Task task() {
-		System.out.println("task() in");
-		Task task = new Task();
-		task.setId("T001");
-		task.setName("Detial design");
-		return task;
-	}
-	
-	
-	@GET
-    @Path("nothingFound")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response nothingFound() {
-		return Response.noContent().build();
-	}
-	
-	@GET
-    @Path("found")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response found() {
-		Task task = new Task();
-		task.setId("T001");
-		task.setName("Detial design");
-		Response res = Response.ok(task).build();
-		return res;
-	}
-	
+
 }

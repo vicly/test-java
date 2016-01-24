@@ -1,17 +1,17 @@
 package vic.test.jersey.test;
 
-import static org.junit.Assert.assertEquals;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
 
-import vic.test.jersey.GsonProvider;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import vic.test.jersey.HelloResource;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 
 public class HelloTest extends JerseyTest {
@@ -19,28 +19,21 @@ public class HelloTest extends JerseyTest {
     @Override
     protected ResourceConfig configure() {
         enable(TestProperties.LOG_TRAFFIC);
-        return new ResourceConfig(GsonProvider.class, HelloResource.class);
+        return new ResourceConfig(HelloResource.class);
     }
 
     @Test
-    public void testConnection() {
-        System.out.println("/hello request...");
+    public void testGetJson() {
         Response response = target("hello").request(MediaType.APPLICATION_JSON_TYPE).get();
-        System.out.println("/hello response: " + response);
-        assertEquals(200, response.getStatus());
+        assertThat(response.getStatus(), equalTo(200));
+        assertThat(response.getMediaType(), equalTo(MediaType.APPLICATION_JSON_TYPE));
+    }
 
-        String resString;
-        System.out.println("/hello request...");
-        resString = target("hello")
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .get(String.class);
-        System.out.println("/hello response: " + resString);
-
-        System.out.println("/hello/task request...");
-        resString = target("hello/task")
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .get(String.class);
-        System.out.println("/hello/task response: " + resString);
+    @Test
+    public void testGetPlainText() {
+        Response response = target("hello").request(MediaType.TEXT_PLAIN_TYPE).get();
+        assertThat(response.getStatus(), equalTo(200));
+        assertThat(response.getMediaType(), equalTo(MediaType.TEXT_PLAIN_TYPE));
     }
 
 }
