@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<!--
+Jetty specific
+under WEB-INF/
+
+https://wiki.eclipse.org/Jetty/Tutorial/Realms
+http://www.eclipse.org/jetty/documentation/current/configuring-security-authentication.html
+-->
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+    <!--<Set name="contextPath">/test</Set>-->
+
+    <Get name="securityHandler">
+        <Set name="loginService">
+            <New class="org.eclipse.jetty.security.HashLoginService">
+                <Set name="name">TestRealm</Set>
+                <!--
+                    make sure run "../gradlew jettyEclipseRun" under directory "jdk-security-base-test"
+                -->
+                <Set name="config">src/main/etc/realm.properties</Set>
+                <!--<Set name="config"><SystemProperty name="jetty.home" default="."/>/etc/realm.properties</Set>-->
+            </New>
+        </Set>
+    </Get>
+</Configure>

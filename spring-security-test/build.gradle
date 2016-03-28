@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath (group: 'com.sahlbach.gradle', name: 'gradle-jetty-eclipse-plugin', version: '1.9.+')
+    }
+}
+
+apply plugin: 'war'
+apply plugin: 'jettyEclipse' // Jetty 9
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.springframework') {
+            details.useVersion '4.2.5.RELEASE'
+        }
+    }
+}
+
+dependencies {
+    providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'jstl:jstl:1.2'
+    // spring webmvc
+    compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'
+    // spring mvc
+    compile 'org.springframework.security:spring-security-web:4.0.4.RELEASE'
+    compile 'org.springframework.security:spring-security-config:4.0.4.RELEASE'
+}

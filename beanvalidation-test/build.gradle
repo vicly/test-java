@@ -1,0 +1,6 @@
+dependencies {
+    compile 'org.hibernate:hibernate-validator:5.2.3.Final'
+    // for JEE server, no need below dependencies
+    compile 'javax.el:javax.el-api:2.2.4'
+    compile 'org.glassfish.web:javax.el:2.2.4'
+}

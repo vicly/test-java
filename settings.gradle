@@ -9,6 +9,11 @@ include 'loggly-test'
 include 'misc-java-test'
 include 'spring-test'
 include 'ws-test'
+include 'aws-test'
+include 'beanvalidation-test'
+include 'jdk-security-web-test'
+include 'jdk-security-base-test'
+include 'spring-security-test'
 //include 'cxf-wsdl-first' // tmp ignored
 
 

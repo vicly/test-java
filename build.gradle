@@ -5,7 +5,7 @@ defaultTasks 'assemble'
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2'
+    gradleVersion = '2.12'
 }
 
 apply from: "gradle/dependencies.gradle"
@@ -40,8 +40,8 @@ subprojects {
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
 
-	sourceCompatibility = 1.7
-	targetCompatibility = 1.7
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
 
 	dependencies {
 		compile libraries.guava
