@@ -1,0 +1,21 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+dependencies {
+    // Jersey
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.22.1'
+
+    // Jackson
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.22.1'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.5.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.4'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.4'
+
+    // Swagger
+    compile 'io.swagger:swagger-jersey2-jaxrs:1.5.8'
+    providedCompile 'javax.servlet:servlet-api:2.5'
+
+    // Logging
+    compile 'ch.qos.logback:logback-classic:1.0.9'
+
+}
