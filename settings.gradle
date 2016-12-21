@@ -16,6 +16,7 @@ include 'jdk-security-base-test'
 include 'spring-security-test'
 include 'jersey-swagger-test'
 include 'dropwizard-metrics-test'
+include 'spring-hibernate-jpa'
 //include 'cxf-wsdl-first' // tmp ignored
 
 

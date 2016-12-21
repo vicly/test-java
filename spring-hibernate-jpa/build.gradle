@@ -1,0 +1,31 @@
+
+dependencies {
+
+    /*
+     * From hibernate 3.5, this covers all dependencies:
+     *   Hibernate Core: the native Hibernate APIs and core engine
+     *   Hibernate Annotations: the annotation-based mapping
+     *   Hibernate EntityManager: the JPA 2.0 APIs and livecycle semantic implementation
+     */
+    compile 'org.hibernate:hibernate-entitymanager:5.0.1.Final'
+    //compile 'org.hibernate:hibernate-validator:5.2.1.Final'
+
+
+    compile 'com.google.guava:guava:18.0'
+    compile 'org.hsqldb:hsqldb:2.2.9'
+    compile 'org.slf4j:slf4j-api:1.7.5'
+    runtime 'ch.qos.logback:logback-classic:1.0.9'
+
+
+    // test spring + hibernate + jpa
+    compile 'org.springframework:spring-context:4.0.3.RELEASE'
+    compile 'org.springframework:spring-context-support:4.0.3.RELEASE'
+    compile 'org.springframework:spring-beans:4.0.3.RELEASE'
+    compile 'org.springframework:spring-orm:4.0.3.RELEASE'
+    compile 'org.springframework:spring-tx:4.0.3.RELEASE'
+    testCompile 'org.springframework:spring-test:4.0.3.RELEASE'
+
+    compile 'org.apache.tomcat:tomcat-dbcp:8.0.30'
+
+
+}
