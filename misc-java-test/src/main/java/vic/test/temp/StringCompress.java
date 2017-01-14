@@ -1,8 +1,6 @@
 package vic.test.temp;
 
-import java.util.Arrays;
-
-public class Test {
+public class StringCompress {
 	
 	public static void main(String[] args) {
 		System.out.println("aaabbb => " + compress("aaabbb"));
@@ -16,6 +14,8 @@ public class Test {
 		int num = 0;
 		for (int i = 0; i < chars.length; i++) {
 			if (sb.length() == chars.length) {
+				// compressed even longer
+				// use original string
 				return str;
 			}
 
@@ -33,9 +33,6 @@ public class Test {
 		}
 
 		return sb.toString();
-	}
-
-	void t() {
 	}
 
 }
