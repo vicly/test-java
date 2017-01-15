@@ -3,7 +3,7 @@ package vic.test.temp;
 /**
  * @author Vic Liu
  */
-public class Atlassian {
+public class At {
 
     public static void main(String[] args) {
         //
@@ -32,13 +32,12 @@ public class Atlassian {
         }
 
 
-        System.out.println(Integer.toHexString(15));
-        System.out.println(Integer.toHexString(-15));
+        //
+        // base 7
+        //
+        System.out.println(intToBase7(7));
 
     }
-
-
-
 
     private static int findFirstIndex(int[] arr, int[] sub) {
         final int NOT_FOUND = -1;
@@ -90,11 +89,24 @@ public class Atlassian {
     }
 
 
-    private static String encodeBase7(int number) {
-        char[] b7 = {'0', 'a', 't', 'l', 's', 'o', 'n'};
+    /**
+     * int to custom base 7
+     */
+    private static String intToBase7(int n) {
+        final char[] c = {'0', 'a', 't', 'l', 's', 'i', 'N'};
 
-        //Integer.toHexString(50);
-        return null;
+        if (n == 0) return "0";
+
+        StringBuilder sb = new StringBuilder();
+        int radix = c.length;
+        int q = n;
+        while (q != 0) {
+            int r = q % radix;
+            q = q / radix;
+            sb.append(c[r]);
+        }
+
+        return sb.reverse().toString();
     }
 
 }
