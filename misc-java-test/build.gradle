@@ -5,4 +5,8 @@ dependencies {
 //	compile 'com.jcraft:jsch:0.1.43 44'
 //	compile 'com.jcraft:jsch:0.1.45'
 //	compile 'com.jcraft:jsch:0.1.51'
+
+    compile libraries.junit
+    compile libraries.hamcrest_all
+    compile libraries.mockito
 }
