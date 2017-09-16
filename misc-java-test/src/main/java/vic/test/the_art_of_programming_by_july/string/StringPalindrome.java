@@ -1,4 +1,4 @@
-package vic.test.the_art_of_programming_by_july;
+package vic.test.the_art_of_programming_by_july.string;
 
 /**
  * palindrome 回文,从前往后与从后往前读一样,如: a, aba, abba, abcba

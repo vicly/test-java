@@ -1,4 +1,4 @@
-package vic.test.the_art_of_programming_by_july;
+package vic.test.the_art_of_programming_by_july.string;
 
 import java.util.Arrays;
 import java.util.HashSet;

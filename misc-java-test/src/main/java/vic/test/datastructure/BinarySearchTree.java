@@ -1,6 +1,24 @@
 package vic.test.datastructure;
 
 /**
+ * Binary Search Tree
+ * 1. 二叉树
+ * 2. 左子树 <= parent <= 右子树
+ *
+ * Insert: 与各节点比较
+ *         小往左，大王右，至到叶子
+ *
+ * Delete:
+ *     若 叶子节点，直接删掉
+ *
+ *     非叶子节点
+ *       若 仅一个子节点，子树上移，替代其位置
+ *
+ *       若 有两个子节点
+ *          左子最大节点 或 右子树最小节点 来替代其位置
+ *          原左最大／右最小节点位置，由其子节点替代
+ *
+ *
  * @author Vic Liu
  */
 public class BinarySearchTree {

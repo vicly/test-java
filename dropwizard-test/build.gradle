@@ -1,9 +1,10 @@
 
 dependencies {
-	compile 'io.dropwizard:dropwizard-core:0.8.1'
-	compile 'io.dropwizard:dropwizard-client:0.8.1' // used to call another HTTP API
-	compile 'io.dropwizard:dropwizard-metrics-ganglia:0.8.1'
-	compile 'io.dropwizard:dropwizard-configuration:0.8.1'
+	compile 'io.dropwizard:dropwizard-core:1.1.2'
+	compile 'io.dropwizard:dropwizard-client:1.1.2' // used to call another HTTP API
+	//compile 'io.dropwizard:dropwizard-metrics-ganglia:1.1.2s'
+	compile 'io.dropwizard:dropwizard-configuration:1.1.2'
+	compile 'com.smoketurner:dropwizard-swagger:1.1.2-1'
 }
 
 

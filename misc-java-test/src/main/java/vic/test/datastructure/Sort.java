@@ -267,7 +267,7 @@ public class Sort {
 	 *
 	 * What? heap is a special tree
 	 * 1. Complete Binary Tree ( all level of the tree are fully filled )
-	 * 2. all node are either GREATER_EQUAL or LESS_EQUAL its children (Max-Heap, Min-Heap)
+	 * 2. all node are either GREATER_EQUAL or LESS_EQUAL its children (Max-HeapMin, Min-HeapMin)
 	 *
 	 *
 	 * How?

@@ -1,0 +1,11 @@
+
+swagger:
+  resourcePackage: vic.test.dropwizard.inputcheck
+
+logging:
+  level: INFO
+  loggers:
+    "vic.test.dropwizard.inputcheck": DEBUG
+    "io.dropwizard.jersey": DEBUG
+  appenders:
+    - type: console
