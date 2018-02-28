@@ -1,4 +1,17 @@
 template: Hello, %s
 defaultName: Stranger
 
+server:
+  requestLog:
+    type: custom
+
+logging:
+  type: custom
+  level: INFO
+  loggers:
+    "vic.test.dropwizard.inputcheck": DEBUG
+    "io.dropwizard.jersey": DEBUG
+  appenders:
+    - type: console
+
 

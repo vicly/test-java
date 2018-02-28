@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * resource class
@@ -17,6 +19,8 @@ import com.google.common.base.Optional;
 @Path("/hello-world")
 @Produces(MediaType.APPLICATION_JSON)
 public class HelloWorldResource {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldResource.class);
 	/*
 	 * this class is used by multiple thread.
 	 */
@@ -37,6 +41,10 @@ public class HelloWorldResource {
 	@Timed
 	public Saying sayHello(@QueryParam("name") Optional<String> name) {
 		final String value = String.format(template, name.or(defaultName));
+
+		LOGGER.info("saying hello");
+		LOGGER.info("saying \"cvv\"  : \"123\"");
+
 		return new Saying(counter.incrementAndGet(), value);
 	}
 

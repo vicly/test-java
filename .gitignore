@@ -21,6 +21,7 @@ target
 bin
 classes
 dist
+out
 
 #eclipse specific
 .classpath
