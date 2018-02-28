@@ -8,7 +8,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
 	public static void main(String[] args) throws Exception {
 
-		args =  new String[] { "server", "/home/vic/PHL/tech-test/dropwizard-test/hello-world.yml" };
+		args =  new String[] { "server", "/Users/vic/code/github/test-java/dropwizard-test/hello-world.yml" };
 
 		new HelloWorldApplication().run(args);
 	}
