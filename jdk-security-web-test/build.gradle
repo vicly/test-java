@@ -1,5 +1,6 @@
+
 apply plugin: 'war'
-apply plugin: 'jetty'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 dependencies {
     compile 'javax.servlet:servlet-api:2.5'

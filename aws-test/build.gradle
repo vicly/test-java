@@ -1,3 +1,6 @@
+
 dependencies {
     compile 'com.amazonaws:aws-java-sdk:1.11.40'
+    compile 'com.amazonaws:amazon-kinesis-client:1.9.1'
+    compile 'org.apache.commons:commons-lang3:3.3.2'
 }

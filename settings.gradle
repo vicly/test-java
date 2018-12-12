@@ -18,6 +18,8 @@ include 'jersey-swagger-test'
 include 'dropwizard-metrics-test'
 include 'spring-hibernate-jpa'
 include 'rxjava-test'
+include 'spring-boot-test'
+include 'spring-boot-consume-rest'
 //include 'cxf-wsdl-first' // tmp ignored
 
 

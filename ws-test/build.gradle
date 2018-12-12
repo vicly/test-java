@@ -1,5 +1,5 @@
 apply plugin: 'war'
-apply plugin: 'jetty'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 ext {
 	springVersion = '4.0.0.RELEASE'
@@ -50,7 +50,7 @@ org.apache.cxf:cxf-rt-transports-http-jetty:3.0.0
 //org.springframework:spring-web:3.0.6.RELEASE
 
 
-jettyRun {
-	scanIntervalSeconds 10
-	httpPort 9000
+gretty {
+	httpPort = 9000
+	scanInterval = 10
 }

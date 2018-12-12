@@ -1,5 +1,8 @@
 package vic.test.aws.s3;
 
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.google.common.base.Stopwatch;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -31,73 +34,90 @@ public class S3Sample {
 
     public static void main(String[] args) throws Exception {
 
+        AWSCredentialsProvider awsCredentialsProvider = new ProfileCredentialsProvider("learning");
+
         // app init
-        AmazonS3 s3 = new AmazonS3Client(new AWSCredentials() {
-            @Override
-            public String getAWSAccessKeyId() {
-                return "AKIAIMJE6QOESP7IHWUQ";
-            }
+        AmazonS3 s3 = AmazonS3ClientBuilder
+                .standard()
+                .withRegion(Regions.AP_SOUTHEAST_2)
+                .withCredentials(awsCredentialsProvider).build();
 
-            @Override
-            public String getAWSSecretKey() {
-                return "ZfJu8/Sj1yoKbEcTYyT8qW+lzKrUIQI1pWAFC0B2";
-            }
-        });
-        s3.setRegion(Region.getRegion(Regions.AP_NORTHEAST_1));
-        TransferManager transferManager = new TransferManager(s3);
-        Stopwatch stopwatch = Stopwatch.createUnstarted();
-
-
-        // app running
         String bucketName = "vic-test-bucket-" + UUID.randomUUID();
 
-        System.out.println("Creating bucket " + bucketName);
-        stopwatch.start();
-        s3.createBucket(bucketName);
-        System.out.println("Created bucket, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+        createBucket(s3, bucketName);
+
+        separator();
+
+        listAllBuckets(s3);
 
 
-        System.out.println("\nList buckets");
-        stopwatch.reset().start();
+        String objectKey = "key-" + UUID.randomUUID().toString();
+        separator();
+        putObject(s3, bucketName, objectKey);
+        separator();
+        getObject(s3, bucketName, objectKey);
+
+        if (false) {
+            separator();
+            uploadBigFile(s3, bucketName);
+        }
+
+        separator();
+        deleteBucket(s3, bucketName);
+
+    }
+
+    private static void getObject(AmazonS3 s3, String bucketName, String key) {
+        System.out.println("\nGetting object 10 times" + key);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        S3Object s3Object = s3.getObject(bucketName, key);
+        System.out.println("Got object 10 times, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
+
+    private static void putObject(AmazonS3 s3, String bucketName, String key) {
+        System.out.println("Putting object: " + key);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+
+        byte[] content = "hello world".getBytes();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(content);
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(content.length);
+
+        PutObjectResult putObjectResult = s3.putObject(bucketName, key, inputStream,  objectMetadata);
+        System.out.println("Put object, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
+        StringBuilder putObjectResultString = new StringBuilder();
+        putObjectResultString
+                .append("\n\tversionId=").append(putObjectResult.getVersionId())
+                .append("\n\tcontentMd5=").append(putObjectResult.getContentMd5())
+                .append("\n\tETag=").append(putObjectResult.getETag())
+                .append("\n\texpirationTime=").append(putObjectResult.getExpirationTime())
+                .append("\n\texpirationTimeRuleId=").append(putObjectResult.getExpirationTimeRuleId())
+                .append("\n\tSSEAlgorithm=").append(putObjectResult.getSSEAlgorithm())
+                .append("\n\tSSECustomerAlgorithm=").append(putObjectResult.getSSECustomerAlgorithm())
+                .append("\n\tSSECustomerKeyMd5=").append(putObjectResult.getSSECustomerKeyMd5());
+        ObjectMetadata resultMetadata = putObjectResult.getMetadata();
+        putObjectResultString.append("\n\trawMetadata=").append(resultMetadata.getRawMetadata());
+        System.out.println("resultString: " + putObjectResultString);
+    }
+
+    private static void separator() {
+        System.out.println("\n-------------------------------------------------\n");
+    }
+
+    private static void listAllBuckets(AmazonS3 s3) {
+        System.out.println("List buckets");
+        Stopwatch stopwatch = Stopwatch.createStarted();
         for (Bucket bucket : s3.listBuckets()) {
             System.out.println(" - " + bucket.getName() + ", " + bucket.getCreationDate().toInstant().atZone(ZoneId.of("Pacific/Auckland")));
         }
         System.out.println("Listed buckets, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
-        stopwatch.reset();
+    }
 
-
-        String key = "key-" + UUID.randomUUID().toString();
-        System.out.println("\nPutting object " + key);
-        stopwatch.reset().start();
-        byte[] content = "hello world".getBytes();
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(content);
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(content.length);
-        PutObjectResult putObjectResult = s3.putObject(bucketName, key, inputStream,  objectMetadata);
-        System.out.println("Put object, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
-        StringBuilder putObjectResultString = new StringBuilder();
-        putObjectResultString
-                .append("\nversionId=").append(putObjectResult.getVersionId())
-                .append("\ncontentMd5=").append(putObjectResult.getContentMd5())
-                .append("\nETag=").append(putObjectResult.getETag())
-                .append("\nexpirationTime=").append(putObjectResult.getExpirationTime())
-                .append("\nexpirationTimeRuleId=").append(putObjectResult.getExpirationTimeRuleId())
-                .append("\nSSEAlgorithm=").append(putObjectResult.getSSEAlgorithm())
-                .append("\nSSECustomerAlgorithm=").append(putObjectResult.getSSECustomerAlgorithm())
-                .append("\nSSECustomerKeyMd5=").append(putObjectResult.getSSECustomerKeyMd5());
-        ObjectMetadata resultMetadata = putObjectResult.getMetadata();
-        putObjectResultString.append("rawMetadata=").append(resultMetadata.getRawMetadata());
-        System.out.println("resultString: " + putObjectResultString);
-
-
-        System.out.println("\nGetting object 10 times" + key);
-        stopwatch.reset().start();
-        S3Object s3Object = s3.getObject(bucketName, key);
-        System.out.println("Got object 10 times, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
-
-        if (false) {
-
+    private static void uploadBigFile(AmazonS3 s3, String bucketName) throws InterruptedException {
         System.out.println("\nUploading big file");
+
         final int FOUR_MEGABYTES = 4 * 1024 * 1024;
         byte[] payload = new byte[FOUR_MEGABYTES];
         for (int i = 0; i < FOUR_MEGABYTES; i++) {
@@ -119,7 +139,9 @@ public class S3Sample {
         ByteArrayInputStream f5 = new ByteArrayInputStream(payload);
         ObjectMetadata om5 = new ObjectMetadata();
         om5.setContentLength(FOUR_MEGABYTES);
-        stopwatch.reset().start();
+
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        TransferManager transferManager = new TransferManager(s3);
         Upload up1 = transferManager.upload(bucketName, "big-file-1", f1, om1);
         Upload up2 = transferManager.upload(bucketName, "big-file-2",  f2, om2);
         Upload up3 = transferManager.upload(bucketName, "big-file-3",  f3, om3);
@@ -135,43 +157,53 @@ public class S3Sample {
         System.out.println("Uploaded bigfile 4, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
         up5.waitForCompletion();
         System.out.println("Uploaded bigfile 5, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
 
+    private static void createBucket(AmazonS3 s3, String bucketName) {
+        System.out.println("Creating bucket " + bucketName);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        s3.createBucket(bucketName);
+        System.out.println("Created bucket, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
 
-        }
-
-
-        // del all bucket
+    //
+    // DANGEROUS !!
+    //
+    private static void deleteAllBuckets(AmazonS3 s3) {
+        System.out.println("!!! Deleting All Buckets");
         for (Bucket bucket : s3.listBuckets()) {
-            String name = bucket.getName();
-            System.out.println("\nDeleting bucket " + name);
-            stopwatch.reset().start();
+            deleteBucket(s3, bucket.getName());
+        }
+    }
 
-            // del all content
-            ObjectListing objectListing = s3.listObjects(name);
-            while (true) {
-                for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
-                    s3.deleteObject(name, objectSummary.getKey());
-                }
-                if (objectListing.isTruncated()) {
-                    objectListing = s3.listNextBatchOfObjects(objectListing);
-                } else {
-                    break;
-                }
+    private static void deleteBucket(AmazonS3 s3, String bucketName) {
+        System.out.format("[%s] Deleting bucket\n", bucketName);
+
+        Stopwatch stopwatch = Stopwatch.createStarted();
+
+        // del all content
+        ObjectListing objectListing = s3.listObjects(bucketName);
+        while (true) {
+            for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+                System.out.format("[%s] Deleting object: %s\n", bucketName, objectSummary.getKey());
+                s3.deleteObject(bucketName, objectSummary.getKey());
             }
-            // del version
-            VersionListing versionListing = s3.listVersions(new ListVersionsRequest().withBucketName(name));
-            for (S3VersionSummary versionSummary : versionListing.getVersionSummaries()) {
-                s3.deleteVersion(name, versionSummary.getKey(), versionSummary.getVersionId());
+            if (objectListing.isTruncated()) {
+                objectListing = s3.listNextBatchOfObjects(objectListing);
+            } else {
+                break;
             }
-            // del bucket
-            s3.deleteBucket(name);
-            System.out.println("Deleted bucket, time cost(millis): " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+        }
+        // del version
+        VersionListing versionListing = s3.listVersions(new ListVersionsRequest().withBucketName(bucketName));
+        for (S3VersionSummary versionSummary : versionListing.getVersionSummaries()) {
+            System.out.format("[%s] Deleting version: versionId=%s\n", bucketName, versionSummary.getVersionId());
+            s3.deleteVersion(bucketName, versionSummary.getKey(), versionSummary.getVersionId());
         }
 
-
-
-        // app stop
-
+        // del bucket
+        s3.deleteBucket(bucketName);
+        System.out.format("[%s] Deleted bucket, time cost(millis): %s", bucketName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
 
 }

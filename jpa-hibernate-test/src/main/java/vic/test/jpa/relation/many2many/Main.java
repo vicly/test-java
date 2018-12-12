@@ -92,6 +92,8 @@ public class Main {
 		em.persist(david);
 		em.getTransaction().commit();
 
+
+
 		log.info("Retrieving users");
 		//em.clear();
 		em.getTransaction().begin();
@@ -106,7 +108,7 @@ public class Main {
 			}
 		}
 		em.getTransaction().commit();
-		
+
 
 		log.info("Retrieving roles");
 		//em.clear();
