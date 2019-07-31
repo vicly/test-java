@@ -1,0 +1,54 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    archiveBaseName = 'spring-boot-test'
+    archiveVersion = '0.1.0'
+
+    // DEMO: specify main class
+    // Opt 1
+    mainClassName = 'vic.test.springboot.app.study.Application'
+
+    // Opt 2
+//    manifest {
+//        attributes 'Start-Class': 'vic.test.springboot.app.study.Application'
+//    }
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            additional = [
+                    'a': 'alpha'
+            ]
+        }
+    }
+    // Opt 3
+    //mainClassName = 'vic.test.springboot.app.study.Application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // DEMO: add devtools in Gradle
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

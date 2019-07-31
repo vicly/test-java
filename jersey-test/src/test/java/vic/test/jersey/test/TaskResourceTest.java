@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -37,7 +38,8 @@ public class TaskResourceTest extends JerseyTest {
         assertThat(response.getStatus(), equalTo(200));
         assertThat(response.getMediaType(), equalTo(MediaType.APPLICATION_JSON_TYPE));
 
-        List<Task> tasks = response.readEntity(List.class);
+        // TODO: DEMO - Response.readEntity(..List<T>..)
+        List<Task> tasks = response.readEntity(new GenericType<List<Task>>() {});
         assertThat(tasks, is(notNullValue()));
     }
 

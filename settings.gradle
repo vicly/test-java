@@ -20,6 +20,8 @@ include 'spring-hibernate-jpa'
 include 'rxjava-test'
 include 'spring-boot-test'
 include 'spring-boot-consume-rest'
+include 'spring-boot-study'
+include 'spring-boot-jersey'
 //include 'cxf-wsdl-first' // tmp ignored
 
 

@@ -8,6 +8,20 @@ dependencies {
 }
 
 
+/* ERROR: to fix
+Cannot convert the provided notation to a File or URI: java.io.BufferedWriter@767651c2.
+  The following types/formats are supported:
+    - A String or CharSequence path, for example 'src/main/java' or '/usr/include'.
+    - A String or CharSequence URI, for example 'file:/usr/include'.
+    - A File instance.
+    - A Path instance.
+    - A Directory instance.
+    - A RegularFile instance.
+    - A URI or URL instance.
+
+
+
+
 task oneJar(type: OneJar) {
 	mainClass = 'vic.test.dropwizard.helloworld.HelloWorldApplication'
 //	archiveName = 'dropwizard-test.jar'
@@ -16,3 +30,4 @@ task oneJar(type: OneJar) {
 artifacts {
 	archives oneJar
 }
+*/

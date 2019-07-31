@@ -1,3 +1,4 @@
+**NOT COMPLETED YET**
 
 Demonstrate how to create a REST service. `web`, spring `JPA`, `H2`
 

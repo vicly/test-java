@@ -1,0 +1,42 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+logging:
+  group:
+    mygroup: vic.test.springboot.app.study, another.package
+  level:
+    root: WARN
+    # springboot built in group
+    # web: INFO # org.springframework.core.codec, org.springframework.http, org.springframework.web
+    # sql: INFO # org.springframework.jdbc.core, org.hibernate.SQL
+    # custom group
+    mygroup: DEBUG
+    org.springframework: INFO
+
+example:
+  enabled: true
+  security:
+    username: vic
+    password: 123
+    roles:
+      - SELLER
+      - BUYER
+  greeting: Hi
+  services:
+    user:
+      baseUrl: http://user-service
+      httpLogEnabled: false
+      sessionTimeout: 30s
+      readTimeout: 200ms
+      payloadSizeThreshold: 50KB
+    order:
+      baseUrl: http://order-service
+      httpLogEnabled: true
+      sessionTimeout: 30s
+      readTimeout: 300ms
+      payloadSizeThreshold: 2MB
+
+
+

@@ -29,11 +29,17 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.security.oauth:spring-security-oauth2")
+    //compile("org.springframework.security.oauth:spring-security-oauth2")
     //compile('org.springframework.cloud:spring-cloud-starter-oauth2')
-    compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure'
-    //compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE'
+    compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.2.RELEASE'
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     runtime('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+bootJar {
+    // FIXME: this is to avoid error : " Unable to find a single main class from the following candidates"
+    //        to use another application, change here
+    mainClassName = "vic.test.springboot.app.greeting.Application"
 }
