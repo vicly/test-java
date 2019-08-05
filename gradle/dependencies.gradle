@@ -13,7 +13,7 @@ libraries.log4j_to_slf4j = dependencies.module('org.slf4j:log4j-over-slf4j:1.7.7
 
 libraries.guava = 'com.google.guava:guava:18.0'
 libraries.junit = 'junit:junit:4.12'
-libraries.mockito = "org.mockito:mockito-core:1.9.5"
+libraries.mockito = "org.mockito:mockito-core:2.+"
 libraries.hsqldb = 'org.hsqldb:hsqldb:2.3.2'
 libraries.logback = 'ch.qos.logback:logback-classic:1.0.9'
 libraries.hamcrest_all = 'org.hamcrest:hamcrest-all:1.3'

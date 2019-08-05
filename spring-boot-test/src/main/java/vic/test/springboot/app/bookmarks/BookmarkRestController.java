@@ -40,7 +40,7 @@ public class BookmarkRestController {
         return root;
     }
 
-    @GetMapping(value = "/{userId}/bookmarks", produces = "application/json")
+    @GetMapping(value = "/{userId}/bookmarks")
     Resources<BookmarkResource> readBookmarks(@PathVariable String userId) {
         validateUser(userId);
 

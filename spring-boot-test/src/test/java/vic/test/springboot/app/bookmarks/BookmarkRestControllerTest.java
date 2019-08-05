@@ -1,22 +1,23 @@
 package vic.test.springboot.app.bookmarks;
 
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,16 +30,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-// FIXME: error test
-@Ignore("To be fixed")
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
-@WebAppConfiguration
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookmarkRestControllerTest {
+    // Replace with @RunWith(SpringRunner.class)
+    @ClassRule
+    public static final SpringClassRule springClassRule = new SpringClassRule();
+    @Rule
+    public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
+    @LocalServerPort
+    private int localServerPort;
+
+    private MediaType contentType = MediaType.parseMediaType("application/json;charset=UTF-8");
+
+    private MediaType halContentType = MediaType.parseMediaType("application/hal+json;charset=UTF-8");
 
     private MockMvc mockMvc;
 
@@ -79,41 +84,50 @@ public class BookmarkRestControllerTest {
         this.accountRepository.deleteAllInBatch();
 
         this.account = accountRepository.save(new Account(userName, "password"));
-        this.bookmarkList.add(bookmarkRepository.save(new Bookmark(account, "http://bookmark.com/1/" + userName, "A description")));
-        this.bookmarkList.add(bookmarkRepository.save(new Bookmark(account, "http://bookmark.com/2/" + userName, "A description")));
+        this.bookmarkList.add(bookmarkRepository.save(
+                new Bookmark(account,"http://bookmark.com/1/" + userName, "A description")));
+        this.bookmarkList.add(bookmarkRepository.save(
+                new Bookmark(account, "http://bookmark.com/2/" + userName, "A description")));
+    }
+
+    @Test
+    public void localServerPort() {
+        System.out.println("localServerPort=" + localServerPort);
     }
 
     @Test
     public void userNotFound() throws Exception {
         mockMvc.perform(post("/george/bookmarks/")
-                .content(this.json(new Bookmark(null, null, null)))
+                .content(json(new Bookmark(null, null, null)))
                 .contentType(contentType))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void readSingleBookmark() throws Exception {
-        mockMvc.perform(get("/" + userName + "/bookmarks/"
-                + this.bookmarkList.get(0).getId()))
+        Long bookmarkId = this.bookmarkList.get(0).getId();
+        mockMvc.perform(get("/" + userName + "/bookmarks/" + bookmarkId))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.id", is(this.bookmarkList.get(0).getId().intValue())))
-                .andExpect(jsonPath("$.uri", is("http://bookmark.com/1/" + userName)))
-                .andExpect(jsonPath("$.description", is("A description")));
+                .andExpect(content().contentType(halContentType))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(jsonPath("$.bookmark.id", is(bookmarkId.intValue())))
+                .andExpect(jsonPath("$.bookmark.uri", is("http://bookmark.com/1/" + userName)))
+                .andExpect(jsonPath("$.bookmark.description", is("A description")));
     }
 
     @Test
     public void readBookmarks() throws Exception {
         mockMvc.perform(get("/" + userName + "/bookmarks"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(this.bookmarkList.get(0).getId().intValue())))
-                .andExpect(jsonPath("$[0].uri", is("http://bookmark.com/1/" + userName)))
-                .andExpect(jsonPath("$[0].description", is("A description")))
-                .andExpect(jsonPath("$[1].id", is(this.bookmarkList.get(1).getId().intValue())))
-                .andExpect(jsonPath("$[1].uri", is("http://bookmark.com/2/" + userName)))
-                .andExpect(jsonPath("$[1].description", is("A description")));
+                .andExpect(content().contentType(halContentType))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList", hasSize(2)))
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList[0].bookmark.id", is(this.bookmarkList.get(0).getId().intValue())))
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList[0].bookmark.uri", is("http://bookmark.com/1/" + userName)))
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList[0].bookmark.description", is("A description")))
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList[1].bookmark.id", is(this.bookmarkList.get(1).getId().intValue())))
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList[1].bookmark.uri", is("http://bookmark.com/2/" + userName)))
+                .andExpect(jsonPath("$._embedded.bookmarkResourceList[1].bookmark.description", is("A description")));
     }
 
     @Test
